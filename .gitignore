@@ -9,6 +9,7 @@ __pycache__/
 
 # C extensions
 *.so
+*.csv
 
 # Distribution / packaging
 .Python
@@ -74,7 +75,6 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-.csv
 
 # PyBuilder
 .pybuilder/

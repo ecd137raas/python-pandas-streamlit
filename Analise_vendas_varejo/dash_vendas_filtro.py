@@ -5,7 +5,6 @@ import pandas as pd
 st.set_page_config(layout="wide")
 
 df= pd.read_csv("vendas.csv", sep=";", decimal=",", engine=None, encoding='utf-8')
-df= df.sort_values(by='Mes')
 df['ValorPedidoForm'] = df['Valor Pedido'].apply(lambda x: f'R${x:,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.'))
 
 customer=st.selectbox("Cliente", df["Cliente"].unique())
@@ -28,9 +27,13 @@ substituicoes = {
 # Substituindo os valores na coluna 'Mes'
 df_range['Mes'] = df_range['Mes'].replace(substituicoes)
 
+ordem_meses = ['Junho', 'Julho', 'Agosto', 'Setembro']
+
 df_range['Gateway Pagamento'] = df_range.apply(lambda row: 'Shipay' if 'PixDto' in row['Info'] else 'PagarMe' if 'PagarMe' in row['Info'] else row['Gateway Pagamento'], axis=1)
 df_range["MeioPagamento"] = df_range.apply(lambda row: 'Pix' if 'PixDto' in row['Info'] else 'Crédito' if 'Cartao' in row['Info'] else 'Boleto', axis=1)
 df_range["Bandeira"] = df_range.apply(lambda row: 'Visa' if 'visa' in row['Info'] else 'Visa' if 'Visa' in row['Info'] else 'Amex' if 'Amex' in row['Info'] else 'Amex' if 'amex' in row['Info'] else 'Master' if 'mastercard' in row['Info'] else 'Master' if 'Master' in row['Info'] else 'Elo' if 'elo' in row['Info'] else 'Elo' if 'Elo' in row['Info'] else 'Diners' if 'diners' in row['Info'] else 'Diners' if 'Diners' in row['Info'] else 'Pix/Boleto', axis=1)
+
+df_range['Mes'] = pd.Categorical(df_range['Mes'], categories=ordem_meses, ordered=True)
 
 col1, col2 = st.columns(2)
 col3, col4, col5 = st.columns(3)

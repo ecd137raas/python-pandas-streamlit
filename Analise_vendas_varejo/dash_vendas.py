@@ -26,18 +26,20 @@ substituicoes = {
 # Substituindo os valores na coluna 'Mes'
 df['Mes'] = df['Mes'].replace(substituicoes)
 
+ordem_meses = ['Junho', 'Julho', 'Agosto', 'Setembro']
+
 df['Gateway Pagamento'] = df.apply(lambda row: 'Shipay' if 'PixDto' in row['Info'] else 'PagarMe' if 'PagarMe' in row['Info'] else row['Gateway Pagamento'], axis=1)
 df["MeioPagamento"] = df.apply(lambda row: 'Pix' if 'PixDto' in row['Info'] else 'Crédito' if 'Cartao' in row['Info'] else 'Boleto', axis=1)
 df["Bandeira"] = df.apply(lambda row: 'Visa' if 'visa' in row['Info'] else 'Visa' if 'Visa' in row['Info'] else 'Amex' if 'Amex' in row['Info'] else 'Master' if 'mastercard' in row['Info'] else 'Master' if 'Master' in row['Info'] else 'Elo' if 'elo' in row['Info'] else 'Elo' if 'Elo' in row['Info'] else 'Outros', axis=1)
 
-# df["Data"].apply(lambda x: str(x.month) + "-" + str(x.year))
+df['Mes'] = pd.Categorical(df['Mes'], categories=ordem_meses, ordered=True)
 
 col1, col2 = st.columns(2)
 col3, col4, col5 = st.columns(3)
 
 totais = df.groupby("Mes")["Valor Pedido"].sum().reset_index()
 
-fig_date = px.bar(df, x="Mes", y="Valor Pedido", title="Faturamento por Mês")
+fig_date = px.bar(totais, x="Mes", y="Valor Pedido", title="Faturamento por Mês")
 col1.plotly_chart(fig_date) 
 
 fig_date = px.pie(df, values="Valor Pedido", names="Gateway Pagamento", title="Gateway de Pagamento")
