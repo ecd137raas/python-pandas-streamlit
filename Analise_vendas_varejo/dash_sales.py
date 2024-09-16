@@ -1,3 +1,4 @@
+
 import streamlit as st
 import plotly.express as px
 import pandas as pd
@@ -30,7 +31,7 @@ df['Gateway Pagamento'] = df.apply(lambda row: 'Shipay' if 'PixDto' in row['Info
 df["MeioPagamento"] = df.apply(lambda row: 'Pix' if 'PixDto' in row['Info'] else 'Crédito' if 'Cartao' in row['Info'] else 'Boleto', axis=1)
 df["Bandeira"] = df.apply(lambda row: 'Visa' if 'visa' in row['Info'] else 'Visa' if 'Visa' in row['Info'] else 'Amex' if 'Amex' in row['Info'] else 'Master' if 'mastercard' in row['Info'] else 'Master' if 'Master' in row['Info'] else 'Elo' if 'elo' in row['Info'] else 'Elo' if 'Elo' in row['Info'] else 'Outros', axis=1)
 
-# df["Data"].apply(lambda x: str(x.month) + "-" + str(x.year))
+df.head()
 
 col1, col2 = st.columns(2)
 col3, col4, col5 = st.columns(3)

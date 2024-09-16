@@ -10,7 +10,9 @@ server = os.getenv('SERVER')
 database = os.getenv('DB')
 username = os.getenv('USR')
 password = os.getenv('PW')
+
 connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=ODBC+Driver+17+for+SQL+Server'
+
 engine = create_engine(connection_string)
 
 st.set_page_config(layout="wide")
