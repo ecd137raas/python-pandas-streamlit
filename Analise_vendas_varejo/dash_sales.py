@@ -6,9 +6,9 @@ import pandas as pd
 st.set_page_config(layout="wide")
 
 df= pd.read_csv("vendas.csv", sep=";", decimal=",", engine=None, encoding='utf-8')
+df['ID'] = range(1, len(df) + 1)
+df = df.set_index(['ID'])
 
-#customer=st.sidebar.selectbox("Cliente", df["Cliente"].unique())
-#df_range=df[df["Cliente"] == customer]
 
 substituicoes = {
     1: 'Janeiro',
